@@ -1,4 +1,4 @@
-# docker compose for icecast with multiple sources
+= docker compose for icecast with multiple sources
 
 I really like https://github.com/rern/rAudio-1/ and I run it on a few raspberry pi computers for my home office and my woodshop. It lets me subscribe to web radio stations.
 
