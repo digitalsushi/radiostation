@@ -1,0 +1,49 @@
+
+# So there's two volumes per channel: state, mp3dir, and config. the config indicates a unique stream to play mp3dir to.
+# we dont persist the states because the state on a channel is useless to me. 
+
+version: "3.8"
+
+# PORTS are set in .env file and read directly by ports: and passed through via x-common-variables
+
+x-common-variables: &common-variables
+  ICECAST_PASSWORD: malarkey123secret
+  ICECAST_HOSTPORT: ${EXTERNAL_PORT}
+  ICECAST_PORT: ${CONTAINER_PORT}
+  ICECAST_FQDN: muzak.lan
+
+services:
+  channel-a:
+    build:
+      context: ./container-mpd
+      dockerfile: Dockerfile
+    environment:
+      <<: *common-variables
+      CHANNEL_SUFFIX: a
+    volumes:
+      - type: bind
+        source: /nas.lan/music/rock
+        target: /var/lib/mpd/music
+
+  channel-b:
+    build:
+      context: ./container-mpd
+      dockerfile: Dockerfile
+    environment:
+      <<: *common-variables
+      CHANNEL_SUFFIX: b
+    volumes:
+      - type: bind
+        source: /nas.lan/music/techno
+        target: /var/lib/mpd/music
+
+  icecast:
+    build:
+      context: ./container-icecast
+      dockerfile: Dockerfile
+      args:
+        <<: *common-variables
+    environment:
+      <<: *common-variables
+    ports:
+      - ${EXTERNAL_PORT}:${CONTAINER_PORT}

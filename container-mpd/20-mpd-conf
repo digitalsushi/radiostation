@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv bash
+
+sed -i "s,__ICECAST_FQDN__,${ICECAST_FQDN},g" 		/etc/mpd.conf
+sed -i "s,__ICECAST_PORT__,${ICECAST_PORT},g" 		/etc/mpd.conf
+sed -i "s,__ICECAST_PASSWORD__,${ICECAST_PASSWORD},g" 	/etc/mpd.conf
+sed -i "s,__CHANNEL_SUFFIX__,${CHANNEL_SUFFIX},g" 	/etc/mpd.conf
+echo -----------------------------------
+cat /etc/mpd.conf
+echo -----------------------------------
